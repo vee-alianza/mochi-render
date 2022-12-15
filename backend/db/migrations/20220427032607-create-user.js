@@ -1,4 +1,11 @@
 'use strict';
+
+// NEW: add this code to each create table migration file
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Users', {
@@ -40,9 +47,9 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now')
       }
-    });
+    }, options); // add options object here
   },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Users');
+  down: async (queryInterface, Sequelize) => {
+    return queryInterface.dropTable('Users', options);
   }
 };
