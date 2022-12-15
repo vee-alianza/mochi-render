@@ -1,10 +1,14 @@
 'use strict';
 const bcrypt = require('bcryptjs');
 const { faker } = require("@faker-js/faker");
-
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
+    options.tableName = 'Users';
     const seederData = [
       {
         email: 'demo@user.io',
@@ -38,11 +42,12 @@ module.exports = {
         profileImage: faker.image.people(200, 200, true)
       });
     }
-    return queryInterface.bulkInsert('Users', seederData, {});
+    return queryInterface.bulkInsert('Users', seederData, options);
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Users', null, {
+    options.tableName = 'Users';
+    return queryInterface.bulkDelete('Users', null, options, {
       truncate: true,
       cascade: true,
       restartIdentity: true

@@ -1,9 +1,14 @@
 'use strict';
 const { faker } = require("@faker-js/faker");
 const { User, Story } = require("../models");
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    options.tableName = 'storyLikes';
     const seederData = [];
     const rating = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
     const totalStory = await Story.count();
@@ -26,7 +31,7 @@ module.exports = {
         rating: faker.helpers.uniqueArray(rating, 1)[0]
       });
     }
-    return queryInterface.bulkInsert('storyLikes', seederData, {});
+    return queryInterface.bulkInsert('storyLikes', seederData, options);
   },
 
   down: (queryInterface, Sequelize) => {
@@ -36,6 +41,7 @@ module.exports = {
 
       Example:
       */
-    return queryInterface.bulkDelete('storyLikes', null, {});
+    options.tableName = 'storyLikes';
+    return queryInterface.bulkDelete('storyLikes', null, options);
   }
 };

@@ -2,13 +2,15 @@
 
 // NEW: add this code to each create table migration file
 let options = {};
+options.tableName = 'Users' // define your table name in options object
+
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Users', {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.addColumn(options, 'Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -49,7 +51,7 @@ module.exports = {
       }
     }, options); // add options object here
   },
-  down: async (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Users', options);
+  async down(queryInterface, Sequelize) {
+    await queryInterface.removeColumn('Users', options);
   }
 };

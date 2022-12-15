@@ -1,9 +1,14 @@
 'use strict';
 const { faker } = require("@faker-js/faker");
 const { User, Story } = require("../models");
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    options.tableName = 'Bookmarks';
     const seederData = [];
     const totalStory = await Story.count();
     const totalUser = await User.count();
@@ -24,7 +29,7 @@ module.exports = {
         userId: tempUserId
       });
     }
-    return queryInterface.bulkInsert('Bookmarks', seederData, {});
+    return queryInterface.bulkInsert('Bookmarks', seederData, options);
   },
 
   down: (queryInterface, Sequelize) => {
@@ -34,6 +39,7 @@ module.exports = {
 
       Example:
       */
-    return queryInterface.bulkDelete('Bookmarks', null, {});
+    options.tableName = 'Bookmarks';
+    return queryInterface.bulkDelete('Bookmarks', null, options);
   }
 };
