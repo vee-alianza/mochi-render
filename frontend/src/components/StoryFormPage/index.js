@@ -71,7 +71,7 @@ const StoryForm = ({ props }) => {
     if (!title.length) {
       errors.push("Title must be 5 or more characters")
     }
-    // console.log(category, "CATEGORY")
+
     if (!category.length) {
       errors.push("Please select a category")
     }

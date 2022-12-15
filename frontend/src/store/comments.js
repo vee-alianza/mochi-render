@@ -13,9 +13,8 @@ const getComment = (comments) => {
 
 
 export const createComment = () => async dispatch => {
-    // console.log("------createComment thunk------")
     const response = await csrfFetch('/api/comments');
-    // console.log("INFILTRATED BACKEND")
+
 
     if (response.ok) {
         const comments = await response.json();
@@ -25,7 +24,6 @@ export const createComment = () => async dispatch => {
 };
 
 export const postComment = (comment) => async dispatch => {
-    // console.log("------postComment thunk------")
     const response = await csrfFetch('/api/comments/new', {
         method: 'POST',
         body: JSON.stringify(comment)
@@ -45,7 +43,7 @@ export const deleteComment = (commentId) => async dispatch => {
     const response = await csrfFetch(`/api/comments/${commentId}`, {
         method: 'DELETE'
     });
-    // console.log(response, "------deleteComment thunk------");
+
     if (response.ok) {
         // const remove = await response.json();
         // dispatch(removeComment(remove));
@@ -84,7 +82,6 @@ const commentReducer = (state = initialState, action) => {
             action.payload.comments.forEach(comment => {
                 newState[comment.id] = comment;
             });
-            // console.log(action, "------get comment-----")
             return newState;
         default:
             return state

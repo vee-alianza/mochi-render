@@ -18,7 +18,6 @@ const CommentForm = ({ story }) => {
   const [content, setContent] = useState("");
   const [errors, setErrors] = useState([]);
   const [userRating, setUserRating] = useState(0);
-  // console.log(comments, "-----CommentForm component-----")
 
   // if (!sessionUser) {
   //   history.push("/home")
